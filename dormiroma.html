@@ -123,6 +123,7 @@
             border: 4px solid #d8a01b;
             box-shadow: 0 6px 14px rgba(0,0,0,0.4);
             margin-bottom: 6px;
+            transition: opacity 0.2s ease-in-out; /* transizione più fluida */
         }
         .nomi {
             font-size: 1.3em;
@@ -174,14 +175,13 @@
                 audio.play().catch(() => {});
             }
 
-            const durataShuffle = 10000;      // 10 secondi di suspense
-            const intervalloShuffle = 100;    // cambio ogni 100 ms
+            const durataShuffle = 3000;      // 3 secondi di suspense
+            const intervalloShuffle = 180;   // cambio ogni 180 ms
             let timerShuffle;
 
-            // mostra la sezione risultato
             document.getElementById('risultato').style.display = 'block';
 
-            // fase di suspense: scambio veloce delle foto
+            // fase di suspense: alterna in modo fluido
             timerShuffle = setInterval(() => {
                 const rand1 = Math.floor(Math.random() * 2);
                 const rand2 = 1 - rand1;
@@ -194,7 +194,7 @@
                      <div class="nomi">${nomi[rand2]}</div>`;
             }, intervalloShuffle);
 
-            // dopo 10 secondi ferma lo shuffle e fissa il risultato definitivo
+            // dopo 3 secondi ferma lo shuffle e fissa il risultato definitivo
             setTimeout(() => {
                 clearInterval(timerShuffle);
 
