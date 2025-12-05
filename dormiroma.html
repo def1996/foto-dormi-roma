@@ -43,12 +43,13 @@
         .papyrus:after { bottom: 0; }
 
         #fotoIniziale {
-            width: 180px;
-            height: 180px;
+            width: 140px;
+            height: 140px;
             border-radius: 50%;
             object-fit: cover;
             border: 6px solid #d8a01b;
             box-shadow: 0 0 0 4px #1034a6, 0 10px 20px rgba(0,0,0,0.5);
+            margin-top: 40px;   /* più in basso */
             margin-bottom: 10px;
         }
 
@@ -143,12 +144,18 @@
     </style>
 </head>
 <body>
-    <div class="papyrus">
+    <!-- PAGINA 1: INTRO -->
+    <div class="papyrus" id="pagina-intro">
         <img id="fotoIniziale" src="fotoiniziale.jpg" alt="Mordi Roma">
         <h1>Quale Mordi Roma andrà in camera con Nik e Def?</h1>
         <div class="sub">E quale con Gianluca e Mino, sotto lo sguardo di Ra?</div>
 
-        <button onclick="randomizza()">Lancia il destino degli dei</button>
+        <button onclick="avviaRandom()">Lancia il destino degli dei</button>
+    </div>
+
+    <!-- PAGINA 2: SOLO RANDOMIZZATORE -->
+    <div class="papyrus" id="pagina-random" style="display:none;">
+        <h1>Il verdetto degli dei</h1>
 
         <div class="divider"></div>
 
@@ -175,6 +182,14 @@
         const immagini = ["tomas.jpg", "manuel.jpg"];
         const nomi = ["Tomas", "Manuel"];
 
+        function avviaRandom() {
+            // cambia "pagina": nasconde intro e mostra randomizzatore
+            document.getElementById('pagina-intro').style.display = 'none';
+            document.getElementById('pagina-random').style.display = 'block';
+
+            randomizza();
+        }
+
         function randomizza() {
             const audio = document.getElementById('musica');
             if (audio && audio.paused) {
@@ -192,7 +207,7 @@
 
             document.getElementById('risultato').style.display = 'block';
 
-            // fase di suspense: fade veloce tra le due combinazioni
+            // fase di suspense
             timerShuffle = setInterval(() => {
                 img1.classList.add('nascosta');
                 img2.classList.add('nascosta');
@@ -214,7 +229,7 @@
                 }, 130);
             }, intervalloShuffle);
 
-            // dopo 3 secondi blocca sul risultato definitivo
+            // risultato definitivo
             setTimeout(() => {
                 clearInterval(timerShuffle);
 
