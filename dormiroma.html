@@ -174,19 +174,43 @@
                 audio.play().catch(() => {});
             }
 
-            const indices = [0, 1];
-            for (let i = indices.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [indices[i], indices[j]] = [indices[j], indices[i]];
-            }
+            const durataShuffle = 10000;      // 10 secondi di suspense
+            const intervalloShuffle = 100;    // cambio ogni 100 ms
+            let timerShuffle;
 
+            // mostra la sezione risultato
             document.getElementById('risultato').style.display = 'block';
-            document.getElementById('stanza1testo').innerHTML = 
-                `<img class="mordi-img" src="${immagini[indices[0]]}" alt="${nomi[indices[0]]}">
-                 <div class="nomi">${nomi[indices[0]]}</div>`;
-            document.getElementById('stanza2testo').innerHTML = 
-                `<img class="mordi-img" src="${immagini[indices[1]]}" alt="${nomi[indices[1]]}">
-                 <div class="nomi">${nomi[indices[1]]}</div>`;
+
+            // fase di suspense: scambio veloce delle foto
+            timerShuffle = setInterval(() => {
+                const rand1 = Math.floor(Math.random() * 2);
+                const rand2 = 1 - rand1;
+
+                document.getElementById('stanza1testo').innerHTML = 
+                    `<img class="mordi-img" src="${immagini[rand1]}" alt="${nomi[rand1]}">
+                     <div class="nomi">${nomi[rand1]}</div>`;
+                document.getElementById('stanza2testo').innerHTML = 
+                    `<img class="mordi-img" src="${immagini[rand2]}" alt="${nomi[rand2]}">
+                     <div class="nomi">${nomi[rand2]}</div>`;
+            }, intervalloShuffle);
+
+            // dopo 10 secondi ferma lo shuffle e fissa il risultato definitivo
+            setTimeout(() => {
+                clearInterval(timerShuffle);
+
+                const indices = [0, 1];
+                for (let i = indices.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [indices[i], indices[j]] = [indices[j], indices[i]];
+                }
+
+                document.getElementById('stanza1testo').innerHTML = 
+                    `<img class="mordi-img" src="${immagini[indices[0]]}" alt="${nomi[indices[0]]}">
+                     <div class="nomi">${nomi[indices[0]]}</div>`;
+                document.getElementById('stanza2testo').innerHTML = 
+                    `<img class="mordi-img" src="${immagini[indices[1]]}" alt="${nomi[indices[1]]}">
+                     <div class="nomi">${nomi[indices[1]]}</div>`;
+            }, durataShuffle);
         }
     </script>
 </body>
